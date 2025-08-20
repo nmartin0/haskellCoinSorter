@@ -28,8 +28,18 @@ sort total [x] = total `div` x : []
 sort total (x:xs) = counts : sort (total - (counts * x)) xs
     where counts = total `div` x
 
-denoms :: [Double]
-denoms = [100.0, 50.0, 20.0, 10.0, 5.0, 1.0, 0.25, 0.10, 0.05, 0.01]
+-- Improve readability, especially for the user, with a list of tuples
+denoms :: [(String,Double)]
+denoms = [("Hundred",   100.00), 
+          ("Fifty",      50.00), 
+          ("Twenty",     20.00),
+          ("Ten",        10.00),
+          ("Five",        5.00), 
+          ("One",         1.00), 
+          ("Quarter",     0.25),
+          ("Dime",        0.10), 
+          ("Nickel",      0.05), 
+          ("Penny",       0.01)]
 
 -- Prompt user for input total, then count the total into denominations and return the denomination counts
 main :: IO ()
@@ -37,6 +47,6 @@ main = do
     putStrLn "Enter a total to be sorted: "
     total <- getLine
     let totalCents = round $ (read total) * 100.0
-    let denomsCents = map (round . (100*)) denoms
+    let denomsCents = map (round . (100*) . snd) denoms
     let counts = sort totalCents denomsCents
-    print $ zip denoms counts
+    print $ zip (map fst denoms) counts

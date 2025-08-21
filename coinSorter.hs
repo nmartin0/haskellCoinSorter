@@ -23,14 +23,18 @@
  - This program is designed to sort USD totals into USD denominations
  -}
 
+type Cent = Integer
+type Denom = String
+type Value = Double
+
 -- Recursively create counts for each constituent denomination, then build a list from that count
-sort :: Integer -> [Integer] -> [Integer]
+sort :: Cent -> [Cent] -> [Cent]
 sort total [x] = total `div` x : []
 sort total (x:xs) = counts : sort (total - (counts * x)) xs
     where counts = total `div` x
 
 -- Improve readability, especially for the user, with a list of tuples
-denoms :: [(String,Double)]
+denoms :: [(Denom,Value)]
 denoms = [("Hundred",   100.00), 
           ("Fifty",      50.00), 
           ("Twenty",     20.00),
